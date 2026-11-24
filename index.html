@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Undangan Gelar Karya Sosial Budaya & Nusantara</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Playfair+Display:wght@700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--marun:#4A0E0E;--kayu:#2B140E;--emas:#D4AF37;--emas2:#F7E7CE;--krem:#FAF3E0;--abu:#6d5b44}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins',sans-serif;background:var(--kayu);color:var(--kayu);overflow-x:hidden}
+button,input,select,textarea{font-family:inherit}
+.hidden{display:none!important}
+
+/* COVER */
+#cover{position:fixed;inset:0;background:radial-gradient(circle at center,#5E1914 0%,#240B08 100%);color:var(--emas2);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;z-index:9999;padding:22px;border:14px double var(--emas);transition:transform 1.2s cubic-bezier(.77,0,.175,1),opacity 1s}
+#cover.terbuka{transform:translateY(-100%);opacity:0;pointer-events:none}
+.gunungan{width:120px;height:120px;animation:melayang 3.5s ease-in-out infinite;filter:drop-shadow(0 0 12px rgba(212,175,55,.6))}
+.judul{font-family:'Cinzel Decorative',serif;font-size:clamp(1.5rem,4vw,2.4rem);color:var(--emas);line-height:1.3;margin:12px 0}
+.input-nama{width:min(360px,100%);padding:13px 16px;border-radius:12px;border:1.5px solid var(--emas);background:rgba(0,0,0,.35);color:#fff;outline:none;margin-top:14px;text-align:center}
+.input-nama::placeholder{color:#d8c9a8}
+.kotak-tamu{background:rgba(0,0,0,.35);border:1.5px solid var(--emas);padding:14px 22px;border-radius:12px;margin:16px 0}
+.btn-buka{background:linear-gradient(135deg,#F3E5AB,#D4AF37 50%,#AA771C);color:#240B08;border:none;padding:14px 32px;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 0 20px rgba(212,175,55,.6);animation:denyut 2s infinite;font-size:1rem}
+.btn-buka:hover{transform:scale(1.05)}
+
+/* ISI */
+.wrap{max-width:760px;margin:22px auto;padding:0 14px 80px}
+.card{background:var(--krem);border:6px double var(--emas);border-radius:18px;padding:36px 22px;position:relative;text-align:center;box-shadow:0 15px 40px rgba(0,0,0,.5);background-image:radial-gradient(circle at 100% 50%,transparent 20%,rgba(212,175,55,.08) 21%,rgba(212,175,55,.08) 34%,transparent 35%,transparent),radial-gradient(circle at 0% 50%,transparent 20%,rgba(212,175,55,.08) 21%,rgba(212,175,55,.08) 34%,transparent 35%,transparent);background-size:40px 40px}
+.sudut{position:absolute;width:60px;height:60px;border:3px solid var(--emas);pointer-events:none}
+.ka{top:10px;left:10px;border-right:none;border-bottom:none;border-top-left-radius:12px}
+.kb{top:10px;right:10px;border-left:none;border-bottom:none;border-top-right-radius:12px}
+.kc{bottom:10px;left:10px;border-right:none;border-top:none;border-bottom-left-radius:12px}
+.kd{bottom:10px;right:10px;border-left:none;border-top:none;border-bottom-right-radius:12px}
+.blok{margin:32px 0;opacity:0;transform:translateY(30px);transition:.9s}
+.blok.aktif{opacity:1;transform:none}
+h2{font-family:'Playfair Display',serif;color:var(--marun);font-size:1.75rem}
+h2::after{content:"✦ ❖ ✦";display:block;font-size:.85rem;color:var(--emas);margin-top:4px}
+p{line-height:1.7;font-size:.95rem}
+.kecil{font-size:.82rem;color:var(--abu)}
+.btn{border:none;cursor:pointer;padding:11px 20px;border-radius:30px;font-weight:700}
+.btn-marun{background:var(--marun);color:#fff;border:1.5px solid var(--emas)}
+.btn-emas{background:var(--emas);color:var(--kayu)}
+.btn-line{background:#fff;color:var(--marun);border:2px solid var(--emas)}
+
+/* COUNTDOWN */
+.count{display:flex;justify-content:center;gap:10px;margin:18px 0;flex-wrap:wrap}
+.kotak{background:var(--marun);color:var(--emas);padding:12px;border-radius:12px;min-width:72px;border:1.5px solid var(--emas)}
+.kotak b{display:block;font-size:1.6rem}
+.progress{height:10px;background:#e8dcc0;border-radius:20px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,#D4AF37,#AA771C);width:0%;transition:1s}
+
+/* RUNDOWN */
+.rundown{text-align:left;margin-top:16px}
+.run{border:1.5px solid #e5d9b8;background:#fffdf7;border-radius:14px;margin-bottom:10px;overflow:hidden}
+.run-head{display:flex;gap:12px;align-items:center;padding:14px;cursor:pointer;width:100%;background:none;border:none;text-align:left}
+.run-head b{color:var(--marun);min-width:52px}
+.run-body{display:none;padding:0 14px 14px 78px;color:#4a3f2f;font-size:.9rem;line-height:1.6}
+.run.open .run-body{display:block}
+.run.open{border-color:var(--emas)}
+
+/* GALERI */
+.galeri{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:16px}
+.foto{border:3px solid var(--emas);border-radius:12px;overflow:hidden;cursor:pointer;background:#2B140E}
+.foto img{width:100%;height:150px;object-fit:cover;display:block}
+.foto div{background:var(--marun);color:var(--emas2);font-size:.78rem;padding:8px}
+
+/* DRESS */
+.dress{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:14px}
+.dress button{border:2px solid #e5d9b8;background:#fff;padding:16px;border-radius:14px;cursor:pointer}
+.dress button.pilih{border-color:var(--emas);background:#fff8dc;box-shadow:0 0 0 2px var(--emas)}
+
+/* FORM */
+.form{text-align:left;background:#fffdf7;border:2px solid var(--emas);border-radius:14px;padding:18px;margin-top:14px}
+.form label{font-size:.82rem;font-weight:700;display:block;margin:12px 0 6px}
+.form input,.form select,.form textarea{width:100%;padding:11px;border:1.5px solid #ddd;border-radius:10px;outline:none}
+.form input:focus,.form textarea:focus{border-color:var(--emas)}
+.pill{display:flex;gap:8px}
+.pill button{flex:1;padding:10px;border-radius:20px;border:1.5px solid #ddd;background:#fff;cursor:pointer}
+.pill button.pilih{background:var(--marun);color:#fff;border-color:var(--marun)}
+.stiker{display:flex;gap:8px;flex-wrap:wrap}
+.stiker button{font-size:1.3rem;padding:8px 12px;border-radius:12px;border:1.5px solid #ddd;background:#fff;cursor:pointer}
+.stiker button.pilih{border-color:var(--emas);background:#fff8dc}
+.item{background:#FAF3E0;border:1px solid #e5d9b8;border-radius:14px;padding:14px;margin-top:10px;text-align:left}
+.item small{color:var(--abu)}
+.like{margin-top:8px;background:#fff;border:1px solid #e5d9b8;padding:6px 12px;border-radius:20px;cursor:pointer}
+.hapus{float:right;border:none;background:none;cursor:pointer;color:#999}
+
+/* MUSIK & TOAST */
+#musik{position:fixed;bottom:16px;right:16px;z-index:900;background:var(--marun);color:#fff;border:2px solid var(--emas);border-radius:16px;padding:12px;width:min(260px,calc(100vw - 2rem));display:none}
+#musik.tampil{display:block}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:90px;z-index:1000;background:#2B130F;color:#fff;padding:12px 18px;border-radius:30px;border:1px solid var(--emas);display:none}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:1001;display:none;align-items:center;justify-content:center;padding:16px}
+#lightbox.tampil{display:flex}
+#lightbox img{max-width:100%;max-height:75vh;border-radius:14px;border:3px solid var(--emas)}
+@keyframes melayang{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes denyut{0%,100%{box-shadow:0 0 15px rgba(212,175,55,.5)}50%{box-shadow:0 0 28px rgba(212,175,55,1)}}
+.partikel{position:fixed;top:-10px;width:6px;height:6px;background:#D4AF37;border-radius:50%;z-index:1;pointer-events:none;animation:jatuh linear infinite}
+@keyframes jatuh{to{transform:translateY(110vh);opacity:0}}
+@media(max-width:480px){.card{padding:28px 14px}}
+</style>
+</head>
+<body>
+
+<audio id="audioLatar" loop><source src="musik.mp3" type="audio/mpeg"></audio>
+
+<!-- ===== COVER ===== -->
+<div id="cover">
+  <svg class="gunungan" viewBox="0 0 120 120"><polygon points="60,5 95,55 110,110 60,95 10,110 25,55" fill="none" stroke="#D4AF37" stroke-width="3"/><polygon points="60,20 82,58 92,98 60,86 28,98 38,58" fill="rgba(212,175,55,.15)" stroke="#F7E7CE" stroke-width="1.5"/><circle cx="60" cy="62" r="12" fill="#D4AF37"/><path d="M60,30 L68,48 L60,44 L52,48 Z" fill="#F7E7CE"/></svg>
+  <p style="letter-spacing:3px;font-size:.82rem;color:#D4AF37">UNDANGAN DIGITAL RESMI</p>
+  <h1 class="judul">Gelar Karya Sosial Budaya &amp; Nusantara</h1>
+  <p>SMK [Nama Sekolah Anda] • Sabtu, 28 November 2026</p>
+  <input id="inputNama" class="input-nama" placeholder="Tulis nama kamu, contoh: Ika">
+  <div class="kotak-tamu"><p style="font-size:.82rem">Kepada Yth. Bapak / Ibu / Saudara/i:</p><p style="font-weight:700" id="namaDiCover">Tamu Undangan Kehormatan</p></div>
+  <button class="btn-buka" onclick="bukaUndangan()">✉ Buka Undangan</button>
+  <p style="font-size:.75rem;margin-top:12px;opacity:.8">Ketuk tombol di atas untuk membuka undangan</p>
+</div>
+
+<!-- ===== ISI ===== -->
+<div class="wrap">
+<div class="card">
+  <div class="sudut ka"></div><div class="sudut kb"></div><div class="sudut kc"></div><div class="sudut kd"></div>
+
+  <div class="blok">
+    <p>Assalamu'alaikum Wr. Wb. / Salam Sejahtera Bagi Kita Semua</p>
+    <p style="margin-top:10px">Kepada Yth. <b id="namaDiIsi">Tamu Undangan Kehormatan</b></p>
+    <h2 style="margin-top:14px">Harmoni Budaya Nusantara</h2>
+    <p>Dengan penuh rasa bangga, kami mengundang Bapak/Ibu untuk hadir menyaksikan pergelaran seni tradisional, pameran busana adat, bazar kuliner daerah, dan aksi bakti sosial pelajar SMK. Mari rayakan keberagaman yang menyatukan kita dalam satu Indonesia.</p>
+    <div style="margin-top:14px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-marun" onclick="salinLink()">🔗 Salin Link</button>
+      <button class="btn btn-emas" onclick="tambahKalender()">📅 Tambah ke Kalender</button>
+    </div>
+  </div>
+
+  <div class="blok">
+    <h2>Menuju Hari Pergelaran</h2>
+    <div class="count">
+      <div class="kotak"><b id="hari">00</b>Hari</div>
+      <div class="kotak"><b id="jam">00</b>Jam</div>
+      <div class="kotak"><b id="menit">00</b>Menit</div>
+      <div class="kotak"><b id="detik">00</b>Detik</div>
+    </div>
+    <p class="kecil" id="teksCountdown">Menghitung...</p>
+    <div class="progress"><i id="barProgress"></i></div>
+  </div>
+
+  <div class="blok">
+    <div style="background:linear-gradient(180deg,#FFFDF7,#F5E6CA);border:2px solid var(--emas);border-radius:14px;padding:20px">
+      <h2>Waktu &amp; Tempat</h2>
+      <p style="margin-top:10px"><b>Hari / Tanggal:</b><br>Sabtu, 28 November 2026</p><br>
+      <p><b>Waktu:</b><br>Pukul 08.00 WIB s.d. Selesai</p><br>
+      <p><b>Lokasi:</b><br>SMK NEGERI 1 KARANG BARU</p><br>
+      <p><b>Dresscode:</b><br>Pakaian Adat Nusantara / Batik Nasional</p>
+      <a href="https://www.google.com/maps/search/?api=1&query=Aula+Utama+SMK" target="_blank" rel="noopener"><button class="btn btn-marun" style="margin-top:14px">📍 Lihat Peta Lokasi</button></a>
+    </div>
+  </div>
+
+  <div class="blok">
+    <h2>Rundown Acara</h2>
+    <p class="kecil">Klik tiap jam untuk melihat detailnya</p>
+    <div class="rundown" id="rundown"></div>
+  </div>
+
+  <div class="blok">
+    <h2>Galeri Persiapan &amp; Budaya</h2>
+    <p class="kecil">Klik foto untuk memperbesar</p>
+    <div class="galeri" id="galeri"></div>
+  </div>
+
+  <div class="blok">
+    <h2>Pilih Dresscode Kamu</h2>
+    <div class="dress" id="dress"></div>
+    <p style="margin-top:12px">Kamu memilih: <b id="dressPilih">Batik Nasional</b></p>
+  </div>
+
+  <div class="blok">
+    <h2>Konfirmasi Kehadiran (RSVP)</h2>
+    <p class="kecil"><span id="totalHadir">0</span> orang Hadir • <span id="totalTamu">0</span> total tamu terdaftar</p>
+    <div class="form">
+      <label>Nama Lengkap</label><input id="rsvpNama" placeholder="Nama kamu">
+      <label>No. WhatsApp (opsional)</label><input id="rsvpWa" placeholder="08xx...">
+      <label>Jumlah yang Hadir</label>
+      <select id="rsvpJumlah"><option value="1">1 Orang</option><option value="2" selected>2 Orang</option><option value="3">3 Orang</option><option value="4">4 Orang</option></select>
+      <label>Status Kehadiran</label>
+      <div class="pill" id="pillStatus"><button type="button" data-v="Hadir" class="pilih">✅ Hadir</button><button type="button" data-v="Berhalangan">😢 Berhalangan</button></div>
+      <button class="btn btn-marun" style="width:100%;margin-top:16px" onclick="kirimRSVP()">Kirim RSVP</button>
+      <button class="btn btn-line" style="width:100%;margin-top:8px" onclick="hapusRSVP()">Hapus RSVP Saya</button>
+    </div>
+    <div id="listRSVP"></div>
+  </div>
+
+  <div class="blok">
+    <h2>Buku Tamu &amp; Ucapan</h2>
+    <div class="form">
+      <label>Nama</label><input id="ucapNama" placeholder="Nama kamu">
+      <label>Ucapan / Doa</label><textarea id="ucapPesan" rows="3" placeholder="Semangat untuk panitia..."></textarea>
+      <label>Pilih Stiker</label>
+      <div class="stiker" id="stikerBox"></div>
+      <button class="btn btn-emas" style="width:100%;margin-top:14px" onclick="kirimUcapan()">💌 Kirim Ucapan</button>
+    </div>
+    <div id="listUcapan"></div>
+    <button class="btn btn-line" style="margin-top:12px" id="btnSemuaUcapan" onclick="toggleUcapan()">Lihat Semua Ucapan</button>
+  </div>
+
+  <div class="blok">
+    <p>Atas kehadiran dan doa restu Bapak/Ibu, kami ucapkan terima kasih.</p>
+    <p style="margin-top:8px;font-weight:700">Panitia Gelar Karya &amp; OSIS<br>SMK NEGERI 1 KARANG BARU</p>
+    <button class="btn btn-line" style="margin-top:14px" onclick="kembaliCover()">⌂ Kembali ke Sampul</button>
+    <button class="btn btn-line" style="margin-top:8px" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆ Back to Top</button>
+  </div>
+</div>
+</div>
+
+<!-- MUSIK -->
+<div id="musik">
+  <div style="display:flex;justify-content:space-between;align-items:center"><button onclick="toggleMusik()" style="background:#D4AF37;border:none;padding:8px 12px;border-radius:20px;font-weight:700;cursor:pointer" id="btnMusikTeks">▶ Putar Musik</button><span>🎵</span></div>
+  <p style="font-size:11px;margin-top:6px">Musik: Gamelan Nusantara • <span id="statusMusik">Dijeda</span></p>
+  <label style="font-size:11px">Volume</label><input type="range" id="volume" min="0" max="100" value="55" style="width:100%">
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="if(event.target===this) tutupLightbox()">
+  <div style="text-align:center;max-width:700px;width:100%">
+    <img id="lbImg" src="" alt="Galeri">
+    <p id="lbCap" style="color:#fff;margin-top:10px"></p>
+    <div style="margin-top:12px;display:flex;gap:8px;justify-content:center">
+      <button class="btn btn-marun" onclick="geserFoto(-1)">← Sebelumnya</button>
+      <button class="btn btn-emas" onclick="geserFoto(1)">Berikutnya →</button>
+      <button class="btn btn-line" onclick="tutupLightbox()">✕ Tutup</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ===== DATA =====
+const GALERI=[
+ {t:'Tari Saman',c:'Panggung Utama • 08.00',img:'saman.jpeg',fb:'https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=800&q=80'},
+ {t:'Batik Tulis',c:'Selasar Pameran • 09.00',img:'batik.jpg',fb:'https://images.unsplash.com/photo-1528459801416-a9e53bbf4e17?w=800&q=80'},
+ {t:'Gamelan',c:'Panggung Utama • 12.00',img:'gamelan.jpeg',fb:'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80'},
+ {t:'Wayang Kulit',c:'Ruang Budaya • 09.30',img:'wayang.jpeg',fb:'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80'},
+ {t:'Kuliner Nusantara',c:'Halaman Bazar • 10.00',img:'kuliner.jpg',fb:'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80'},
+ {t:'Kebaya & Beskap',c:'Peragaan Busana • 09.45',img:'kebaya.jpeg',fb:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80'}
+];
+const RUNDOWN=[
+ {jam:'07.30',judul:'Registrasi & Penyambutan',detail:'Tamu disambut tari selamat datang, penyerahan kupon bazar, dan foto bersama di gerbang kawung.',ikon:'👋'},
+ {jam:'08.00',judul:'Pembukaan & Tari Saman',detail:'Lagu Indonesia Raya, sambutan kepala sekolah, lalu Tari Saman oleh 24 penari.',ikon:'💃'},
+ {jam:'09.00',judul:'Pameran Batik & Karya Siswa',detail:'42 karya batik tulis, batik cap, ecoprint, dan kerajinan daur ulang. Setiap stan dijaga siswa pembuatnya.',ikon:'🎨'},
+ {jam:'10.00',judul:'Bazar Kuliner Nusantara',detail:'Cicipi klepon, serabi, pempek, soto, dan jajanan daerah. Sebagian hasil bazar untuk bakti sosial.',ikon:'🍽️'},
+ {jam:'11.00',judul:'Bakti Sosial & Donasi',detail:'Penyerahan paket sembako dan perlengkapan belajar. Donasi buku & pakaian layak pakai diterima di pos donasi.',ikon:'🤝'},
+ {jam:'12.00',judul:'Penutupan & Harmoni Bersama',detail:'Penampilan gamelan bersama, foto massal, dan pengumuman stan favorit pilihan pengunjung.',ikon:'🎶'}
+];
+const DRESS=[
+ {id:'aceh',nama:'Adat Aceh',detail:'Ulee Balang / busana Aceh lengkap aksesori emas.',simbol:'✦'},
+ {id:'batik',nama:'Batik Nasional',detail:'Batik tulis, cap, atau ecoprint daerah mana pun.',simbol:'❀'},
+ {id:'kebaya',nama:'Kebaya / Beskap',detail:'Kebaya encim, kutu baru, atau beskap Jawa.',simbol:'♡'}
+];
+const STIKER=['❤️','🙏','🎉','🌸','🔥'];
+let statusRSVP='Hadir', stikerPilih='❤️', fotoAktif=0, tampilSemua=false, dressPilih='Batik Nasional';
+
+// ===== TOAST =====
+function toast(msg){const t=document.getElementById('toast');t.innerText='✦ '+msg;t.style.display='block';setTimeout(()=>t.style.display='none',3200)}
+
+// ===== COVER =====
+document.getElementById('inputNama').addEventListener('input',e=>{
+  const v=e.target.value.trim();
+  document.getElementById('namaDiCover').innerText=v||'Tamu Undangan Kehormatan';
+});
+function bukaUndangan(){
+  const nama=document.getElementById('inputNama').value.trim()||'Tamu Undangan Kehormatan';
+  document.getElementById('namaDiIsi').innerText=nama;
+  document.getElementById('cover').classList.add('terbuka');
+  document.querySelectorAll('.blok').forEach((el,i)=>setTimeout(()=>el.classList.add('aktif'),i*280));
+  document.getElementById('musik').classList.add('tampil');
+  const audio=document.getElementById('audioLatar');
+  audio.play().then(()=>{setMusik(true)}).catch(()=>{});
+  toast('Selamat datang, '+nama+'!');
+}
+function kembaliCover(){document.getElementById('cover').classList.remove('terbuka');window.scrollTo({top:0})}
+
+// ===== COUNTDOWN =====
+const target=new Date('Nov 28, 2026 08:00:00').getTime();
+const awal=new Date('Nov 1, 2026 08:00:00').getTime();
+setInterval(()=>{
+  const s=target-Date.now();
+  if(s>0){
+    document.getElementById('hari').innerText=Math.floor(s/(1000*60*60*24));
+    document.getElementById('jam').innerText=Math.floor((s%(1000*60*60*24))/(1000*60*60));
+    document.getElementById('menit').innerText=Math.floor((s%(1000*60*60))/(1000*60));
+    document.getElementById('detik').innerText=Math.floor((s%60000)/1000);
+    const hari=Math.floor(s/(1000*60*60*24));
+    document.getElementById('teksCountdown')=hari+' hari lagi menuju Gelar Karya!';
+    document.getElementById('barProgress').style.width=Math.min(100,Math.max(0,((Date.now()-awal)/(target-awal))*100))+'%';
+  }
+},1000);
+
+// ===== RUNDOWN =====
+const rundownEl=document.getElementById('rundown');
+RUNDOWN.forEach((r,i)=>{
+  const d=document.createElement('div');d.className='run'+(i===1?' open':'');
+  d.innerHTML=`<button class="run-head" onclick="this.parentElement.classList.toggle('open')"><b>${r.jam}</b><span style="font-size:1.2rem">${r.ikon}</span><span><b style="color:#2B140E">${r.judul}</b><br><small style="color:#6d5b44">Klik untuk detail ▼</small></span></button><div class="run-body">${r.detail}</div>`;
+  rundownEl.appendChild(d);
+});
+
+// ===== GALERI + LIGHTBOX =====
+const galeriEl=document.getElementById('galeri');
+GALERI.forEach((g,i)=>{
+  const d=document.createElement('div');d.className='foto';d.onclick=()=>bukaLightbox(i);
+  d.innerHTML=`<img src="${g.img}" onerror="this.onerror=null;this.src='${g.fb}'" alt="${g.t}"><div>${g.t} • ${g.c}</div>`;
+  galeriEl.appendChild(d);
+});
+function bukaLightbox(i){fotoAktif=i;updateLightbox();document.getElementById('lightbox').classList.add('tampil')}
+function updateLightbox(){const g=GALERI[fotoAktif];const img=document.getElementById('lbImg');img.src=g.img;img.onerror=()=>{img.onerror=null;img.src=g.fb};document.getElementById('lbCap').innerText=(fotoAktif+1)+' dari '+GALERI.length+' • '+g.t+' • '+g.c}
+function geserFoto(n){fotoAktif=(fotoAktif+n+GALERI.length)%GALERI.length;updateLightbox()}
+function tutupLightbox(){document.getElementById('lightbox').classList.remove('tampil')}
+document.addEventListener('keydown',e=>{if(document.getElementById('lightbox').classList.contains('tampil')){if(e.key==='Escape')tutupLightbox();if(e.key==='ArrowRight')geserFoto(1);if(e.key==='ArrowLeft')geserFoto(-1)}});
+
+// ===== DRESSCODE =====
+const dressEl=document.getElementById('dress');
+DRESS.forEach((d,i)=>{
+  const b=document.createElement('button');b.className=i===1?'pilih':'';b.onclick=()=>{
+    document.querySelectorAll('#dress button').forEach(x=>x.classList.remove('pilih'));b.classList.add('pilih');
+    dressPilih=d.nama;document.getElementById('dressPilih').innerText=d.nama;toast('Kamu memilih: '+d.nama);
+  };
+  b.innerHTML=`<div style="font-size:1.6rem">${d.simbol}</div><b>${d.nama}</b><p style="font-size:.82rem;color:#6d5b44;margin-top:4px">${d.detail}</p>`;
+  dressEl.appendChild(b);
+});
+
+// ===== RSVP (tersimpan di HP / browser) =====
+let rsvps=JSON.parse(localStorage.getItem('rsvp_nusantara')||'[]');
+document.querySelectorAll('#pillStatus button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#pillStatus button').forEach(x=>x.classList.remove('pilih'));b.classList.add('pilih');statusRSVP=b.dataset.v;
+});
+function renderRSVP(){
+  const list=document.getElementById('listRSVP');list.innerHTML='';
+  let hadir=0,total=0;
+  rsvps.forEach(r=>{total+=Number(r.jumlah);if(r.status==='Hadir')hadir+=Number(r.jumlah)});
+  document.getElementById('totalHadir').innerText=hadir;
+  document.getElementById('totalTamu').innerText=total;
+  rsvps.slice().reverse().forEach(r=>{
+    const d=document.createElement('div');d.className='item';
+    d.innerHTML=`<button class="hapus" onclick="hapusSatuRSVP('${r.id}')">✕</button><b>${r.status==='Hadir'?'✅':'😢'} ${r.nama}</b> <small>• ${r.jumlah} orang • ${r.status}</small><br><small>${r.wa||''} • ${new Date(r.waktu).toLocaleString('id-ID')}</small>`;
+    list.appendChild(d);
+  });
+}
+function kirimRSVP(){
+  const nama=document.getElementById('rsvpNama').value.trim();
+  if(!nama){toast('Isi nama dulu ya!');return}
+  rsvps.push({id:Date.now().toString(),nama,wa:document.getElementById('rsvpWa').value.trim(),jumlah:document.getElementById('rsvpJumlah').value,status:statusRSVP,waktu:new Date().toISOString()});
+  localStorage.setItem('rsvp_nusantara',JSON.stringify(rsvps));
+  document.getElementById('rsvpNama').value='';renderRSVP();toast('Terima kasih! RSVP kamu tersimpan.');
+}
+function hapusSatuRSVP(id){rsvps=rsvps.filter(x=>x.id!==id);localStorage.setItem('rsvp_nusantara',JSON.stringify(rsvps));renderRSVP()}
+function hapusRSVP(){rsvps=[];localStorage.removeItem('rsvp_nusantara');renderRSVP();toast('RSVP dihapus.')}
+renderRSVP();
+
+// ===== BUKU TAMU =====
+let ucapans=JSON.parse(localStorage.getItem('ucapan_nusantara')||'[]');
+const stikerEl=document.getElementById('stikerBox');
+STIKER.forEach((s,i)=>{
+  const b=document.createElement('button');b.type='button';b.innerText=s;b.className=i===0?'pilih':'';b.onclick=()=>{document.querySelectorAll('#stikerBox button').forEach(x=>x.classList.remove('pilih'));b.classList.add('pilih');stikerPilih=s};
+  stikerEl.appendChild(b);
+});
+function renderUcapan(){
+  const list=document.getElementById('listUcapan');list.innerHTML='';
+  const data=tampilSemua?ucapans.slice().reverse():ucapans.slice().reverse().slice(0,4);
+  if(!ucapans.length){list.innerHTML='<p class="kecil" style="margin-top:12px">Belum ada ucapan. Yuk jadi yang pertama!</p>';return}
+  data.forEach(u=>{
+    const d=document.createElement('div');d.className='item';
+    d.innerHTML=`<button class="hapus" onclick="hapusUcapan('${u.id}')">✕</button><b>${u.stiker} ${u.nama}</b> <small>• ${new Date(u.waktu).toLocaleString('id-ID')}</small><p style="margin-top:6px">${u.pesan}</p><button class="like" onclick="likeUcapan('${u.id}')">❤️ Suka • ${u.like}</button>`;
+    list.appendChild(d);
+  });
+  document.getElementById('btnSemuaUcapan').innerText=tampilSemua?'Tampilkan Lebih Sedikit':'Lihat Semua Ucapan ('+ucapans.length+')';
+}
+function kirimUcapan(){
+  const nama=document.getElementById('ucapNama').value.trim();
+  const pesan=document.getElementById('ucapPesan').value.trim();
+  if(!nama||!pesan){toast('Isi nama & ucapan dulu ya!');return}
+  ucapans.push({id:Date.now().toString(),nama,pesan,stiker:stikerPilih,like:0,waktu:new Date().toISOString()});
+  localStorage.setItem('ucapan_nusantara',JSON.stringify(ucapans));
+  document.getElementById('ucapNama').value='';document.getElementById('ucapPesan').value='';renderUcapan();toast('Ucapan kamu terkirim! Terima kasih.');
+}
+function likeUcapan(id){const u=ucapans.find(x=>x.id===id);if(u){u.like++;localStorage.setItem('ucapan_nusantara',JSON.stringify(ucapans));renderUcapan()}}
+function hapusUcapan(id){ucapans=ucapans.filter(x=>x.id!==id);localStorage.setItem('ucapan_nusantara',JSON.stringify(ucapans));renderUcapan()}
+function toggleUcapan(){tampilSemua=!tampilSemua;renderUcapan()}
+renderUcapan();
+
+// ===== MUSIK =====
+let musikMain=false;
+function setMusik(main){musikMain=main;document.getElementById('btnMusikTeks').innerText=main?'⏸ Jeda Musik':'▶ Putar Musik';document.getElementById('statusMusik').innerText=main?'Sedang diputar':'Dijeda'}
+function toggleMusik(){
+  const a=document.getElementById('audioLatar');
+  if(a.paused){a.play().then(()=>setMusik(true)).catch(()=>toast('File musik.mp3 belum ada, tapi undangan tetap jalan.'))}
+  else{a.pause();setMusik(false)}
+}
+document.getElementById('volume').addEventListener('input',e=>{document.getElementById('audioLatar').volume=e.target.value/100});
+
+// ===== LAINNYA =====
+function salinLink(){const url=location.href;navigator.clipboard?.writeText(url).then(()=>toast('Link tersalin!')).catch(()=>toast('Link: '+url))}
+function tambahKalender(){
+  const ics='BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:20261128T010000Z\nDTEND:20261128T050000Z\nSUMMARY:Gelar Karya Sosial Budaya & Nusantara\nLOCATION:Aula Utama SMK\nDESCRIPTION:Undangan Gelar Karya Sosial Budaya & Nusantara\nEND:VEVENT\nEND:VCALENDAR';
+  const blob=new Blob([ics],{type:'text/calendar'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='gelar-karya-nusantara.ics';a.click();toast('File kalender terunduh!');
+}
+// Partikel emas
+for(let i=0;i<20;i++){const p=document.createElement('div');p.className='partikel';p.style.left=Math.random()*100+'vw';p.style.animationDuration=(4+Math.random()*5)+'s';p.style.animationDelay=(Math.random()*5)+'s';document.body.appendChild(p)}
+</script>
+</body>
+</html>
